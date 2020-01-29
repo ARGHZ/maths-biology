@@ -11,6 +11,7 @@ Donde:
 '''
 from numpy import *
 from matplotlib.pyplot import *
+from mpl_toolkits import mplot3d
 from scipy.integrate import odeint
 
 
@@ -53,4 +54,16 @@ plot(t, threshold, 'm--')
 
 legend(loc='center right')
 
+show()
+
+fig = figure()
+ax = axes(projection='3d')
+# Data for a three-dimensional line
+zline = np.linspace(0, 15, 1000)
+xline = np.sin(zline)
+yline = np.cos(zline)
+ax.set_xlabel('M')
+ax.set_ylabel('P')
+ax.set_zlabel('L')
+ax.plot3D(S, I, R, 'gray')
 show()
