@@ -1,59 +1,47 @@
-import numpy as np
-import matplotlib.pyplot as plt
+from numpy import*
+from matplotlib.pyplot import*
 from scipy.integrate import odeint
 
+def depredadorpresa(r,t,alpha,beta,gamma,delta,epsilon):
+    x,y=r
+    dx=alpha*x-beta*x*y
+    dy=epsilon*y+gamma*x*y-delta*y
+    return (dx,dy)
 
-def exponential(x, t, gamma_param):
-    dx = gamma_param * x
-    return dx
+def plotdepredadorpresa(alpha, beta, gamma, delta, epsilon, t):
+
+    r=odeint(depredadorpresa,[3,1],t,args=(alpha,beta,gamma,delta,epsilon))
+
+    x=r[:,0]
+    y=r[:,1]
+
+    plot(t,x,label='Presa')
+    plot(t,y,label='Depredador')
+
+    legend()
+    show()
 
 
-def competition(r, t, a, b, rho):
-    x, y = r
-    dx = x * (1 - x - a * y)
-    dy = rho * y * (1 - y - b * x)
+def plotphase(alpha, beta, gamma, delta, epsilon, t):
+    linspace(0,100,100000)
 
-    return (dx, dy)
+    init_conditions = ((3, 2), (3, 3), (3, 1), (5,2), (4, 1))
 
+    for init_values in init_conditions:
+        r=odeint(depredadorpresa, init_values, t, args=(alpha,beta,gamma,delta,epsilon))
+        x=r[:,0]
+        y=r[:,1]
 
-def logispopulation():
-    pass
+        plot(x, alpha-beta*y)
+
+    legend()
+    show()
 
 
 if __name__ == '__main__':
-    gamma_param, x_0 = 1, 1
-    t = np.linspace(0, 5, 10)
-    x = odeint(exponential, x_0, t, args=(gamma_param, ))
-    '''plt.plot(t, x)
-    plt.xlabel('Time t')
-    plt.ylabel('x values')
-    plt.plot(t, x_0 * np.exp(gamma_param * t))
-    plt.show()'''
+    alpha, beta, gamma, delta, epsilon = 2, 1, 0.4, 1, 0.01
+    t = linspace(0, 10, 100)
 
-    a, b= 2.0, 2.0
-    rho = 4
-    t = np.linspace(0.0, 9.0, 100.0)
-    r = odeint(competition, (1, 1), t, args=(a, b, rho))
-    x = r[:, 0]
-    y = r[:, 1]
-    #plt.plot(t, x, '*')
-    plt.xlabel('Time t')
-    plt.plot(x, y, 'o')
-    r = odeint(competition, (1, 0.9), t, args=(a, b, rho))
-    x = r[:, 0]
-    y = r[:, 1]
-    plt.plot(x, y, 'o')
-    '''r = odeint(competition, (0.85, 1), t, args=(a, b, rho))
-    x = r[:, 0]
-    y = r[:, 1]
-    plt.plot(x, y)
-    r = odeint(competition, (0.6, 1), t, args=(a, b, rho))
-    x = r[:, 0]
-    y = r[:, 1]
-    plt.plot(x, y)
-    r = odeint(competition, (0.4, 1), t, args=(a, b, rho))
-    x = r[:, 0]
-    y = r[:, 1]
-    plt.plot(x, y)'''
-    plt.show()
+    plotdepredadorpresa(alpha, beta, gamma, delta, epsilon, t)
+    plotphase(alpha, beta, gamma, delta, epsilon, t)
 
