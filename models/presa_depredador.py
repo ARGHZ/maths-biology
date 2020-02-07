@@ -19,20 +19,20 @@ def presadepreadormodel(individuals, t, alpha, beta, gamma, delta, epsilon):
 
 
 # Parámetros
-alpha = 0.1
-beta = 0.02
-gamma = 0.3
-delta = 0.01
-epsilon = 0.001
+alpha = 2
+beta = 0.8
+gamma = 0.4
+delta = 0.2
+epsilon = 0.5
 
 # Condiciones iniciales
-x0 = 1  # Presas
-y0 = 5  # Depredadores
+x0 = 10  # Presas
+y0 = 2  # Depredadores
 conds_iniciales = np.array([x0, y0])
 
 # Condiciones para integración
-tf = 500
-N = 800
+tf = 10
+N = 1000
 t = np.linspace(0, tf, N)
 
 solucion = odeint(presadepreadormodel, conds_iniciales, t, args=(alpha, beta, gamma, delta, epsilon))
